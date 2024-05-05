@@ -1,7 +1,7 @@
 const addBtn = document.querySelector(".add");
 const saveBtn = document.querySelector(".save");
 const cancelBtn = document.querySelector(".cancel");
-const deleteBtns = document.getElementsByClassName("delete.note");
+const deleteBtns = document.getElementsByClassName("delete-note");
 const deleteAllBtn = document.querySelector(".delete-all");
 
 const noteArea = document.querySelector(".notes-area");
@@ -31,7 +31,7 @@ const createNote = () => {
   newNote.innerHTML = `
   <div class="note-header">
           <h3 class="note-title">${selectedValue}</h3>
-          <button class="delete-note"><i class="fas fa-times icon"></i></button>
+          <button class="delete-note" onclick="deleteNote(${cardId})"><i class="fas fa-times icon"></i></button>
         </div>
         <div class="note-body">
           ${textArea.value}
@@ -42,9 +42,32 @@ const createNote = () => {
   textArea.value = "";
   category.selectedIndex = 0;
   notePanel.style.display = "none";
+  checkColor(newNote);
 };
 const selectValue = () => {
   selectedValue = category.options[category.selectedIndex].text;
+};
+
+const checkColor = (note) => {
+  switch (selectedValue) {
+    case "Szkoła":
+      note.style.backgroundColor = "#f1c40f";
+      break;
+    case "Praca":
+      note.style.backgroundColor = "#e74c3c";
+      break;
+    case "Inne":
+      note.style.backgroundColor = "#3498db";
+      break;
+  }
+};
+
+const deleteNote = (id) => {
+  const noteToDelete = document.getElementById(id);
+  noteArea.removeChild(noteToDelete);
+};
+const deleteAllNotes = () => {
+  noteArea.innerHTML = "";
 };
 
 addBtn.addEventListener("click", () => {
@@ -59,3 +82,4 @@ cancelBtn.addEventListener("click", () => {
 });
 
 saveBtn.addEventListener("click", addNote);
+deleteAllBtn.addEventListener("click", deleteAllNotes);
